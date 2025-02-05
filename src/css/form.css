@@ -1,0 +1,70 @@
+.form-modal {
+  /* this will again be the veil for the things behind the form */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  /* display: none; */
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.form {
+  min-width: 360px;
+  width: 40%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
+  background-color: var(--color-background-light);
+  border-radius: var(--border-radius-small);
+  padding: var(--spacing-small);
+}
+
+.form__group > * {
+  /*here we wanted to target all the children, so we use these signs to target children (>) and the universal tag to target them all (*)*/
+  display: block;
+}
+
+.form__category {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
+  padding: var(--spacing-medium);
+  border-radius: var(--border-radius-small);
+}
+
+.form input {
+  width: 100%;
+  /* max-width: 360px; to control the width again */
+  min-height: 32px;
+  border-radius: var(--border-radius-small);
+  padding: 0 var(--spacing-small);
+}
+
+.form select {
+  width: 100%;
+  min-height: 32px;
+  border-radius: var(--border-radius-small);
+}
+
+.form__add-button,
+.form__cancel-button {
+  min-height: 32px;
+  border-radius: var(--border-radius-small);
+}
+
+.form__printed-book,
+.form__audio-books {
+  display: none;
+}
+
+/* ------------------------------- */
+
+.display-form {
+  display: flex;
+}
