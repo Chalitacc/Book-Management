@@ -23,6 +23,24 @@ class UserInerface {
       audioBookContainer.style.display = "block";
     }
   }
+  static displayAddModal(
+    openAddModalButton,
+    formModal,
+    printedBookContainer,
+    audioBookContainer
+  ) {
+    openAddModalButton.addEventListener("click", () => {
+      formModal.classList.add("display-form");
+      // HIDE BOTH CONTAINERS INITIALLY
+      printedBookContainer.style.display = "none";
+      audioBookContainer.style.display = "none";
+    });
+  }
+  static closeAddModal(closeAddModalButton, formModal) {
+    closeAddModalButton.addEventListener("click", () => {
+      formModal.classList.remove("display-form");
+    });
+  }
 }
 
 export default UserInerface;

@@ -41,7 +41,17 @@ const audioFields = [
 ];
 
 // ADDING EVENT LISTENER
-// it should listen when a change happens
+//makes the click function be loaded once when the page opens. and pass it with an ananomyous function
+document.addEventListener("DOMContentLoaded", () => {
+  UserInerface.displayAddModal(
+    openAddModalButton,
+    formModal,
+    printedBookContainer,
+    audioBookContainer
+  );
+  UserInerface.closeAddModal(closeAddModalButton, formModal);
+});
+// it should listen when a change happens and pass with anonmymous function
 bookTypeDropDown.addEventListener("change", () => {
   UserInerface.toggleBookTypeFields(
     printedBookContainer,
