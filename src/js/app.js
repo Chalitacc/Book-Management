@@ -81,3 +81,18 @@ form.addEventListener("submit", (e) => {
   // adding render here to for when it is submitted
   UserInerface.renderBooks();
 });
+
+// ADDING EVENT LISTENER FOR THE FILTER FUNCTION
+// event delegation: adding event once to the parents so that it will check which one it is clicked
+
+filterContainer.addEventListener("click", (e) => {
+  // pass the e so that it will know which button is clicked and it does not lock for the whole div for filter-books
+  // adding the class that renders all: filter-books__button--all
+  if (e.target.classList.contains("filter-books__button--all")) {
+    UserInerface.renderBooks("all"); //the default is all but we can add it
+  } else if (e.target.classList.contains("filter-books__button--printed")) {
+    UserInerface.renderBooks("printed-book");
+  } else if (e.target.classList.contains("filter-books__button--audio")) {
+    UserInerface.renderBooks("audio-book");
+  }
+});

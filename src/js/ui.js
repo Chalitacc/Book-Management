@@ -42,7 +42,8 @@ class UserInerface {
     });
   }
   // RENDER BOOKS COLLECTION
-  static renderBooks() {
+  static renderBooks(filter = "all") {
+    //by default it is all that is filtered
     const booksList = document.querySelector(".books__list");
     //rerender so that we only get one copy of each
     booksList.innerHTML = "";
@@ -51,99 +52,111 @@ class UserInerface {
       localStorage.getItem("books-collection")
     );
 
-    booksCollection.forEach((book, index, arr) => {
-      const bookCard = document.createElement("li");
-      const bookDetailsContainer = document.createElement("div");
-      const bookToolsContainer = document.createElement("div");
+    // FILTER THE BOOKS - RERENDER FOR FILTERING BEFORE THE LOOP
+    //check line 45
+    //adding event listener for the filter function in app.js line 85
+    const filteredCollection =
+      filter === "all"
+        ? booksCollection
+        : booksCollection.filter((book) => book.bookType == filter);
+    // it will filter depending on the book type, the filter function creates a new array
+    if (filteredCollection) {
+      //adding the if statement before
+      // CREATING ELEMENTS
+      filteredCollection.forEach((book, index, arr) => {
+        const bookCard = document.createElement("li");
+        const bookDetailsContainer = document.createElement("div");
+        const bookToolsContainer = document.createElement("div");
 
-      // the common properties
-      const titleContainer = document.createElement("div");
-      const authorContainer = document.createElement("div");
-      const publisherContainer = document.createElement("div");
-      const dateContainer = document.createElement("div");
-      const bookTypeContainer = document.createElement("div");
-      //dynamic properties
-      const pagesOrNarratorContainer = document.createElement("div");
-      const printTypeOrDurationContainer = document.createElement("div");
+        // the common properties
+        const titleContainer = document.createElement("div");
+        const authorContainer = document.createElement("div");
+        const publisherContainer = document.createElement("div");
+        const dateContainer = document.createElement("div");
+        const bookTypeContainer = document.createElement("div");
+        //dynamic properties
+        const pagesOrNarratorContainer = document.createElement("div");
+        const printTypeOrDurationContainer = document.createElement("div");
 
-      const titleHeader = document.createElement("h3");
-      const authorHeader = document.createElement("h3");
-      const publisherHeader = document.createElement("h3");
-      const dateHeader = document.createElement("h3");
-      const bookTypeHeader = document.createElement("h3");
-      const pagesOrNarratorHeader = document.createElement("h3");
-      const printTypeOrDurationHeader = document.createElement("h3");
-      //this is for the value for the headers
-      const title = document.createElement("span");
-      const author = document.createElement("span");
-      const publisher = document.createElement("span");
-      const date = document.createElement("span");
-      const bookType = document.createElement("span");
-      const pagesOrNarrator = document.createElement("span");
-      const printTypeOrDuration = document.createElement("span");
+        const titleHeader = document.createElement("h3");
+        const authorHeader = document.createElement("h3");
+        const publisherHeader = document.createElement("h3");
+        const dateHeader = document.createElement("h3");
+        const bookTypeHeader = document.createElement("h3");
+        const pagesOrNarratorHeader = document.createElement("h3");
+        const printTypeOrDurationHeader = document.createElement("h3");
+        //this is for the value for the headers
+        const title = document.createElement("span");
+        const author = document.createElement("span");
+        const publisher = document.createElement("span");
+        const date = document.createElement("span");
+        const bookType = document.createElement("span");
+        const pagesOrNarrator = document.createElement("span");
+        const printTypeOrDuration = document.createElement("span");
 
-      //create the delete and edit button
-      const deleteButton = document.createElement("button");
-      const editButton = document.createElement("button");
+        //create the delete and edit button
+        const deleteButton = document.createElement("button");
+        const editButton = document.createElement("button");
 
-      // APPENDING THE ELEMENTS
-      booksList.append(bookCard);
-      bookCard.append(bookDetailsContainer, bookToolsContainer);
-      bookDetailsContainer.append(
-        titleContainer,
-        authorContainer,
-        publisherContainer,
-        dateContainer,
-        bookTypeContainer,
-        pagesOrNarratorContainer,
-        printTypeOrDurationContainer
-      );
-      titleContainer.append(titleHeader, title);
-      authorContainer.append(authorHeader, author);
-      publisherContainer.append(publisherHeader, publisher);
-      dateContainer.append(dateHeader, date);
-      bookTypeContainer.append(bookTypeHeader, bookType);
-      pagesOrNarratorContainer.append(pagesOrNarratorHeader, pagesOrNarrator);
-      printTypeOrDurationContainer.append(
-        printTypeOrDurationHeader,
-        printTypeOrDuration
-      );
-      bookToolsContainer.append(deleteButton, editButton);
+        // APPENDING THE ELEMENTS
+        booksList.append(bookCard);
+        bookCard.append(bookDetailsContainer, bookToolsContainer);
+        bookDetailsContainer.append(
+          titleContainer,
+          authorContainer,
+          publisherContainer,
+          dateContainer,
+          bookTypeContainer,
+          pagesOrNarratorContainer,
+          printTypeOrDurationContainer
+        );
+        titleContainer.append(titleHeader, title);
+        authorContainer.append(authorHeader, author);
+        publisherContainer.append(publisherHeader, publisher);
+        dateContainer.append(dateHeader, date);
+        bookTypeContainer.append(bookTypeHeader, bookType);
+        pagesOrNarratorContainer.append(pagesOrNarratorHeader, pagesOrNarrator);
+        printTypeOrDurationContainer.append(
+          printTypeOrDurationHeader,
+          printTypeOrDuration
+        );
+        bookToolsContainer.append(deleteButton, editButton);
 
-      // POPULATING THE BOOK CARD WITH BOOKS DETAILS
-      titleHeader.textContent = "Title:";
-      authorHeader.textContent = "Author:";
-      publisherHeader.textContent = "Publisher";
-      dateHeader.textContent = "Date:";
-      bookTypeHeader.textContent = "Book Type:";
-      pagesOrNarratorHeader.textContent =
-        book.bookType === "printed-book" ? "Pages:" : "Narrator";
-      printTypeOrDurationHeader.textContent =
-        book.bookType === "printed-book" ? "Print Type:" : "Duration";
+        // POPULATING THE BOOK CARD WITH BOOKS DETAILS
+        titleHeader.textContent = "Title:";
+        authorHeader.textContent = "Author:";
+        publisherHeader.textContent = "Publisher";
+        dateHeader.textContent = "Date:";
+        bookTypeHeader.textContent = "Book Type:";
+        pagesOrNarratorHeader.textContent =
+          book.bookType === "printed-book" ? "Pages:" : "Narrator";
+        printTypeOrDurationHeader.textContent =
+          book.bookType === "printed-book" ? "Print Type:" : "Duration";
 
-      title.textContent = book.title;
-      author.textContent = book.author;
-      publisher.textContent = book.publisher;
-      date.textContent = book.date;
-      bookType.textContent = book.bookType;
-      // the dynamic element (=== means if it equals) ? (if it is true) : (if it is not true) --> this is called turnary
-      pagesOrNarrator.textContent =
-        book.bookType === "printed-book" ? book.pages : book.narrator;
-      printTypeOrDuration.textContent =
-        book.bookType === "printed-book" ? book.printType : book.duration;
+        title.textContent = book.title;
+        author.textContent = book.author;
+        publisher.textContent = book.publisher;
+        date.textContent = book.date;
+        bookType.textContent = book.bookType;
+        // the dynamic element (=== means if it equals) ? (if it is true) : (if it is not true) --> this is called turnary
+        pagesOrNarrator.textContent =
+          book.bookType === "printed-book" ? book.pages : book.narrator;
+        printTypeOrDuration.textContent =
+          book.bookType === "printed-book" ? book.printType : book.duration;
 
-      deleteButton.textContent = "Delete";
-      editButton.textContent = "Editx";
+        deleteButton.textContent = "Delete";
+        editButton.textContent = "Editx";
 
-      // ADD CLASS NAMES
-      bookCard.classList.add("book__item");
-      bookDetailsContainer.classList.add("book-item__details-container");
-      bookToolsContainer.classList.add("book-item__tools-container");
-      deleteButton.classList.add("book-item__delete-button");
-      editButton.classList.add("book-item__edit-button");
+        // ADD CLASS NAMES
+        bookCard.classList.add("book__item");
+        bookDetailsContainer.classList.add("book-item__details-container");
+        bookToolsContainer.classList.add("book-item__tools-container");
+        deleteButton.classList.add("book-item__delete-button");
+        editButton.classList.add("book-item__edit-button");
 
-      // adding event listener in the app.js for when it should be rendered
-    });
+        // adding event listener in the app.js for when it should be rendered
+      });
+    }
   }
 }
 
