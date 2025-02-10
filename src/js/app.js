@@ -1,5 +1,6 @@
 // SELECT DOM ELEMENTS
 
+import BookManager from "./bookManager";
 import UserInerface from "./ui";
 
 const openAddModalButton = document.querySelector(".add-books__button");
@@ -22,7 +23,7 @@ const formSubmitButton = document.querySelector(".form__add-button");
 // SELECTING ELEMENTS SPECIFIC FOR PRINTED BOOKS
 
 const pages = document.querySelector(".form__pages-input");
-const printType = document.querySelector(".form__print-typet");
+const printType = document.querySelector(".form__print-type");
 
 // SELECTING ELEMENTS SPECIFIC FOR AUDIO BOOKS
 
@@ -59,5 +60,32 @@ bookTypeDropDown.addEventListener("change", () => {
     audioFields,
     printedFields,
     bookTypeDropDown.value // have to add the value as js canno get the value from html as a string
+  );
+});
+
+console.log(
+  title,
+  author,
+  publisher,
+  date,
+  bookTypeDropDown,
+  pages,
+  printType,
+  narrator,
+  duration
+);
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  BookManager.addBook(
+    title.value.trim(),
+    author.value.trim(),
+    publisher.value.trim(),
+    date.value,
+    bookTypeDropDown.value,
+    pages.value.trim(),
+    printType.value,
+    narrator.value.trim(),
+    duration.value
   );
 });
