@@ -63,18 +63,6 @@ bookTypeDropDown.addEventListener("change", () => {
   );
 });
 
-console.log(
-  title,
-  author,
-  publisher,
-  date,
-  bookTypeDropDown,
-  pages,
-  printType,
-  narrator,
-  duration
-);
-
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   BookManager.addBook(
