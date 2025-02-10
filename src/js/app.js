@@ -51,6 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
     audioBookContainer
   );
   UserInerface.closeAddModal(closeAddModalButton, formModal);
+  //adding event lsitener for rendering the books
+  UserInerface.renderBooks(); //here you do need to pass any argument as it says void and as we are fetching data from the local storage
 });
 // it should listen when a change happens and pass with anonmymous function
 bookTypeDropDown.addEventListener("change", () => {
@@ -76,4 +78,6 @@ form.addEventListener("submit", (e) => {
     narrator.value.trim(),
     duration.value
   );
+  // adding render here to for when it is submitted
+  UserInerface.renderBooks();
 });
