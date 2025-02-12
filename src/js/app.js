@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
   UserInerface.closeAddModal(closeAddModalButton, formModal);
   //adding event lsitener for rendering the books
   UserInerface.renderBooks(); //here you do need to pass any argument as it says void and as we are fetching data from the local storage
+  UserInerface.closeDeleteModal();
 });
 // it should listen when a change happens and pass with anonmymous function
 bookTypeDropDown.addEventListener("change", () => {
@@ -67,21 +68,39 @@ bookTypeDropDown.addEventListener("change", () => {
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  BookManager.addBook(
-    title.value.trim(),
-    author.value.trim(),
-    publisher.value.trim(),
-    date.value,
-    bookTypeDropDown.value,
-    pages.value.trim(),
-    printType.value,
-    narrator.value.trim(),
-    duration.value
-  );
-  // adding render here to for when it is submitted
-  UserInerface.renderBooks();
-});
+  if (!UserInerface.currentEditId) {
+    BookManager.addBook(
+      title.value.trim(),
+      author.value.trim(),
+      publisher.value.trim(),
+      date.value,
+      bookTypeDropDown.value,
+      pages.value.trim(),
+      printType.value,
+      narrator.value.trim(),
+      duration.value
+    );
+  } else {
+    BookManager.editBook(
+      UserInerface.currentEditId,
+      title.value.trim(),
+      author.value.trim(),
+      publisher.value.trim(),
+      date.value,
+      bookTypeDropDown.value,
+      pages.value.trim(),
+      printType.value,
+      narrator.value.trim(),
+      duration.value
+    );
+    UserInerface.currentEditId = null;
+    formModal.classList.remove("display-form");
+    formSubmitButton.textContent = "Add";
+  }
 
+  UserInerface.renderBooks();
+  form.reset();
+});
 // ADDING EVENT LISTENER FOR THE FILTER FUNCTION
 // event delegation: adding event once to the parents so that it will check which one it is clicked
 

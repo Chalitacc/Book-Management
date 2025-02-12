@@ -109,3 +109,9 @@ main {
   border: 2px solid var(--color-background-dark);
   border-radius: var(--border-radius-small);
 }
+
+.display-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,5 +1,8 @@
+import BookManager from "./bookManager";
+
 class UserInerface {
   //will make it connect to only this class not in other instances
+  static currentEditId = null;
   static toggleBookTypeFields(
     printedBookContainer,
     audioBookContainer,
@@ -41,6 +44,79 @@ class UserInerface {
       formModal.classList.remove("display-form");
     });
   }
+  // DELETE MESSAGE
+  static displayDeleteModal(bookId, bookTitle) {
+    const deleteModal = document.querySelector(".delete-modal");
+    const deleteMessage = document.querySelector(".delete-modal__text");
+    const confirmDeleteButton = document.querySelector(
+      ".delete-modal__confirm-button"
+    );
+
+    deleteMessage.textContent = `Are you sure you want to delete: ${bookTitle}`;
+    deleteModal.classList.add("display-modal");
+
+    confirmDeleteButton.addEventListener("click", () => {
+      BookManager.deleteBook(bookId);
+      deleteModal.classList.remove("display-modal");
+    });
+  }
+
+  static closeDeleteModal() {
+    const deleteModal = document.querySelector(".delete-modal");
+    const cancelDeleteButton = document.querySelector(
+      ".delete-modal__cancel-button"
+    );
+    cancelDeleteButton.addEventListener("click", () => {
+      deleteModal.classList.remove("display-modal");
+    });
+  }
+
+  static displayEditModal() {
+    const formModal = document.querySelector(".form-modal");
+    const formSubmitButton = document.querySelector(".form__add-button");
+    formModal.classList.add("display-form");
+    formSubmitButton.textContent = "Confirm Edit";
+  }
+  static populateEditForm(id) {
+    const title = document.querySelector(".form__title-input");
+    const publisher = document.querySelector(".form__publisher-input");
+    const author = document.querySelector(".form__author-input");
+    const date = document.querySelector(".form__publication-date-input");
+    const bookTypeDropDown = document.querySelector(".form__book-type");
+    const printedBookContainer = document.querySelector(".form__printed-book");
+    const audioBookContainer = document.querySelector(".form__audio-books");
+
+    const pages = document.querySelector(".form__pages-input");
+    const printType = document.querySelector(".form__print-type");
+
+    const narrator = document.querySelector(".form__narrator-input");
+    const duration = document.querySelector(".form__duration-input");
+
+    const bookToEdit = BookManager.booksCollection.find(
+      (book) => book.id === id
+    );
+    console.log(bookToEdit);
+
+    title.value = bookToEdit.title;
+    publisher.value = bookToEdit.publisher;
+    author.value = bookToEdit.author;
+    date.value = bookToEdit.date;
+    bookTypeDropDown.value = bookToEdit.bookTypeDropDown;
+
+    if (bookToEdit.bookType === "printed-book") {
+      audioBookContainer.style.display = "none";
+      printedBookContainer.style.display = "block";
+      pages.value = bookToEdit.pages;
+      printType.value = bookToEdit.printType;
+    } else {
+      audioBookContainer.style.display = "block";
+      printedBookContainer.style.display = "none";
+      narrator.value = bookToEdit.narrator;
+      duration.value = bookToEdit.duration;
+    }
+    UserInerface.currentEditId = id;
+  }
+
   // RENDER BOOKS COLLECTION
   static renderBooks(filter = "all") {
     //by default it is all that is filtered
@@ -155,6 +231,15 @@ class UserInerface {
         editButton.classList.add("book-item__edit-button");
 
         // adding event listener in the app.js for when it should be rendered
+
+        // ADD EVENT LISTENERS TO THE BUTTONS
+        deleteButton.addEventListener("click", () => {
+          UserInerface.displayDeleteModal(book.id, book.title);
+        });
+        editButton.addEventListener("click", () => {
+          UserInerface.displayEditModal();
+          UserInerface.populateEditForm(book.id);
+        });
       });
     }
   }
